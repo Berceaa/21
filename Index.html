@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>People21 — B Corp Playbook</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: #fcfcfc;
+            color: #0f172a;
+            -webkit-font-smoothing: antialiased;
+        }
+    </style>
+</head>
+<body x-data="{ 
+    currentTab: 'overview', 
+    diagnosticScores: { leadership: 'ready', ownership: 'progress', doc: 'gap', data: 'progress', capacity: 'ready', activation: 'progress' },
+    deptFilter: 'leadership',
+    
+    /* Interactive Evidence Hub State */
+    evidenceFilter: 'all',
+    evidenceData: [
+        { id: 1, name: 'Articles of Association / Mission Lock Amendment', dept: 'legal', status: 'informal' },
+        { id: 2, name: 'Pay Equity / Demographic Disparity Metrics', dept: 'hr', status: 'missing' },
+        { id: 3, name: 'Localized Supply Chain Expenditure Matrix', dept: 'procurement', status: 'documented' },
+        { id: 4, name: 'Whistleblower Protection & Ethical Conduct Policy', dept: 'legal', status: 'verified' },
+        { id: 5, name: 'Utility Carbon Tracking & Facility Energy Audits', dept: 'housing', status: 'missing' },
+        { id: 6, name: 'Client ESG RFP Standard Response Framework', dept: 'sales', status: 'informal' }
+    ],
+    
+    /* Cycle function for Evidence Statuses */
+    toggleEvidenceStatus(id) {
+        const item = this.evidenceData.find(e => e.id === id);
+        if (item) {
+            const statusOrder = ['missing', 'informal', 'documented', 'verified'];
+            let nextIndex = (statusOrder.indexOf(item.status) + 1) % statusOrder.length;
+            item.status = statusOrder[nextIndex];
+        }
+    }
+}">
+
+    <header class="border-b border-slate-900 bg-white sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-8 h-24 flex items-center justify-between">
+            <div class="flex items-baseline space-x-2">
+                <span class="text-xl font-bold tracking-tight uppercase">People21</span>
+                <span class="text-xs tracking-widest text-slate-400 uppercase font-light">/ B Corp Playbook</span>
+            </div>
+            
+            <nav class="hidden lg:flex space-x-1">
+                <button @click="currentTab = 'overview'" :class="currentTab === 'overview' ? 'border-slate-900 text-slate-900 font-medium' : 'border-transparent text-slate-400 hover:text-slate-900'" class="px-3 py-2 text-xs uppercase tracking-wider border-b-2 transition-all">Start Here</button>
+                <button @click="currentTab = 'diagnostic'" :class="currentTab === 'diagnostic' ? 'border-slate-900 text-slate-900 font-medium' : 'border-transparent text-slate-400 hover:text-slate-900'" class="px-3 py-2 text-xs uppercase tracking-wider border-b-2 transition-all">Check Readiness</button>
+                <button @click="currentTab = 'roadmap'" :class="currentTab === 'roadmap' ? 'border-slate-900 text-slate-900 font-medium' : 'border-transparent text-slate-400 hover:text-slate-900'" class="px-3 py-2 text-xs uppercase tracking-wider border-b-2 transition-all">View Roadmap</button>
+                <button @click="currentTab = 'workstreams'" :class="currentTab === 'workstreams' ? 'border-slate-900 text-slate-900 font-medium' : 'border-transparent text-slate-400 hover:text-slate-900'" class="px-3 py-2 text-xs uppercase tracking-wider border-b-2 transition-all">Find Your Dept</button>
+                <button @click="currentTab = 'evidence'" :class="currentTab === 'evidence' ? 'border-slate-900 text-slate-900 font-medium' : 'border-transparent text-slate-400 hover:text-slate-900'" class="px-3 py-2 text-xs uppercase tracking-wider border-b-2 transition-all">Track Evidence</button>
+                <button @click="currentTab = 'activation'" :class="currentTab === 'activation' ? 'border-slate-900 text-slate-900 font-medium' : 'border-transparent text-slate-400 hover:text-slate-900'" class="px-3 py-2 text-xs uppercase tracking-wider border-b-2 transition-all">Activate Message</button>
+                <button @click="currentTab = 'governance'" :class="currentTab === 'governance' ? 'border-slate-900 text-slate-900 font-medium' : 'border-transparent text-slate-400 hover:text-slate-900'" class="px-3 py-2 text-xs uppercase tracking-wider border-b-2 transition-all">Dashboard</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-8 py-16 min-h-[calc(100vh-180px)]">
+
+        <div x-show="currentTab === 'overview'" class="space-y-20">
+            <div class="max-w-4xl space-y-8">
+                <span class="text-xs uppercase tracking-widest text-slate-400 font-semibold">[ 01 / INTRODUCTION ]</span>
+                <h1 class="text-5xl md:text-6xl font-normal tracking-tight text-slate-900 leading-[1.1]">
+                    A structured implementation matrix shifting ambition into operational reality.
+                </h1>
+                <p class="text-xl text-slate-600 font-light leading-relaxed max-w-2xl">
+                    The People21 B Corp Activation Playbook acts as a definitive blueprint. We map precise ownership, benchmark evidence quality, and outline value creation through client credibility and employer brand positioning.
+                </p>
+                <div class="pt-4">
+                    <button @click="currentTab = 'diagnostic'" class="border border-slate-900 bg-slate-900 text-white hover:bg-transparent hover:text-slate-900 px-6 py-3.5 text-xs uppercase tracking-widest font-medium transition-all">
+                        Begin Readiness Diagnostic &rarr;
+                    </button>
+                </div>
+            </div>
+
+            <div class="border-t border-slate-900 pt-10">
+                <span class="text-xs uppercase tracking-widest text-slate-400 font-semibold block mb-8">Strategic Value Pillars</span>
+                <div class="grid md:grid-cols-3 gap-12">
+                    <div class="space-y-3">
+                        <span class="text-sm font-mono text-slate-400">01.</span>
+                        <h3 class="text-lg font-bold uppercase tracking-tight">Client Trust</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed font-light">Addresses rigid procurement criteria from enterprise clients demanding verified, third-party audited ESG frameworks.</p>
+                    </div>
+                    <div class="space-y-3">
+                        <span class="text-sm font-mono text-slate-400">02.</span>
+                        <h3 class="text-lg font-bold uppercase tracking-tight">Talent Attraction</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed font-light">Secures competitive recruitment advantages by embedding institutional purpose directly into modern candidate journeys.</p>
+                    </div>
+                    <div class="space-y-3">
+                        <span class="text-sm font-mono text-slate-400">03.</span>
+                        <h3 class="text-lg font-bold uppercase tracking-tight">Responsible Employment</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed font-light">Formalizes an industry-leading position by applying legal rigor to internal equity and corporate governance.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div x-show="currentTab === 'diagnostic'" class="space-y-10">
+            <div>
+                <span class="text-xs uppercase tracking-widest text-slate-400 font-semibold">[ 02 / ASSESSMENT ]</span>
+                <h2 class="text-3xl font-bold tracking-tight text-slate-900 mt-2">Readiness Diagnostic</h2>
+            </div>
+
+            <div class="border-t border-b border-slate-900 overflow-hidden">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="border-b border-slate-200 text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                            <th class="py-4 pr-4 font-normal">Focus Dimension</th>
+                            <th class="py-4 px-4 font-normal">Audit Requirements</th>
+                            <th class="py-4 pl-4 font-normal text-right w-48">Maturity Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200 text-sm font-light">
+                        <tr>
+                            <td class="py-6 pr-4 font-medium text-slate-900">Leadership Support</td>
+                            <td class="py-6 px-4 text-slate-600">Executive commitment verified, dedicated transformation capital allocated, and legal mission lock approved.</td>
+                            <td class="py-6 pl-4 text-right">
+                                <button @click="diagnosticScores.leadership = (diagnosticScores.leadership === 'ready' ? 'progress' : (diagnosticScores.leadership === 'progress' ? 'gap' : 'ready'))"
+                                    :class="diagnosticScores.leadership === 'ready' ? 'text-emerald-700 bg-emerald-50 border-emerald-300' : (diagnosticScores.leadership === 'progress' ? 'text-amber-700 bg-amber-50 border-amber-300' : 'text-rose-700 bg-rose-50 border-rose-300')"
+                                    class="px-3 py-1 border text-xs uppercase tracking-wider font-medium cursor-pointer transition-all">
+                                    <span x-text="diagnosticScores.leadership"></span>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-6 pr-4 font-medium text-slate-900">Ownership & Accountability</td>
+                            <td class="py-6 px-4 text-slate-600">Cross-functional workstream managers assigned and goals tied directly to department metrics.</td>
+                            <td class="py-6 pl-4 text-right">
+                                <button @click="diagnosticScores.ownership = (diagnosticScores.ownership === 'ready' ? 'progress' : (diagnosticScores.ownership === 'progress' ? 'gap' : 'ready'))"
+                                    :class="diagnosticScores.ownership === 'ready' ? 'text-emerald-700 bg-emerald-50 border-emerald-300' : (diagnosticScores.ownership === 'progress' ? 'text-amber-700 bg-amber-50 border-amber-300' : 'text-rose-700 bg-rose-50 border-rose-300')"
+                                    class="px-3 py-1 border text-xs uppercase tracking-wider font-medium cursor-pointer transition-all">
+                                    <span x-text="diagnosticScores.ownership"></span>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-6 pr-4 font-medium text-slate-900">Documentation Quality</td>
+                            <td class="py-6 px-4 text-slate-600">Centralized corporate handbooks, environmental records, and localized sourcing codes prepared.</td>
+                            <td class="py-6 pl-4 text-right">
+                                <button @click="diagnosticScores.doc = (diagnosticScores.doc === 'ready' ? 'progress' : (diagnosticScores.doc === 'progress' ? 'gap' : 'ready'))"
+                                    :class="diagnosticScores.doc === 'ready' ? 'text-emerald-700 bg-emerald-50 border-emerald-300' : (diagnosticScores.doc === 'progress' ? 'text-amber-700 bg-amber-50 border-amber-300' : 'text-rose-700 bg-rose-50 border-rose-300')"
+                                    class="px-3 py-1 border text-xs uppercase tracking-wider font-medium cursor-pointer transition-all">
+                                    <span x-text="diagnosticScores.doc"></span>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-6 pr-4 font-medium text-slate-900">Data Trackability</td>
+                            <td class="py-6 px-4 text-slate-600">Granular tracking frameworks active for commercial energy usage, waste streams, and hiring trends.</td>
+                            <td class="py-6 pl-4 text-right">
+                                <button @click="diagnosticScores.data = (diagnosticScores.data === 'ready' ? 'progress' : (diagnosticScores.data === 'progress' ? 'gap' : 'ready'))"
+                                    :class="diagnosticScores.data === 'ready' ? 'text-emerald-700 bg-emerald-50 border-emerald-300' : (diagnosticScores.data === 'progress' ? 'text-amber-700 bg-amber-50 border-amber-300' : 'text-rose-700 bg-rose-50 border-rose-300')"
+                                    class="px-3 py-1 border text-xs uppercase tracking-wider font-medium cursor-pointer transition-all">
+                                    <span x-text="diagnosticScores.data"></span>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div x-show="currentTab === 'roadmap'" class="space-y-12">
+            <div>
+                <span class="text-xs uppercase tracking-widest text-slate-400 font-semibold">[ 03 / TIMELINE ]</span>
+                <h2 class="text-3xl font-bold tracking-tight text-slate-900 mt-2">Milestones to 2027</h2>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="border border-slate-900 p-6 flex flex-col justify-between h-72">
+                    <div>
+                        <span class="text-xs uppercase font-mono text-slate-400 block mb-2">Phase 01 / Q2-Q3 2026</span>
+                        <h3 class="text-lg font-bold uppercase tracking-tight mb-4">Baseline Audit</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed font-light">Establish official BIA score, modify articles of association, and align major board entities.</p>
+                    </div>
+                    <div class="text-[11px] font-mono border-t border-slate-200 pt-3 text-slate-500">
+                        RISK: Legal delays in corporate structural updates.
+                    </div>
+                </div>
+
+                <div class="border border-slate-200 p-6 flex flex-col justify-between h-72">
+                    <div>
+                        <span class="text-xs uppercase font-mono text-slate-400 block mb-2">Phase 02 / Q4 2026</span>
+                        <h3 class="text-lg font-bold uppercase tracking-tight mb-4">Policy Integration</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed font-light">Bridge operational operational gaps inside HR, Legal, Procurement, and supply chain logistics.</p>
+                    </div>
+                    <div class="text-[11px] font-mono border-t border-slate-200 pt-3 text-slate-500">
+                        RISK: Scope creep in tier-1 vendor audits.
+                    </div>
+                </div>
+
+                <div class="border border-slate-200 p-6 flex flex-col justify-between h-72">
+                    <div>
+                        <span class="text-xs uppercase font-mono text-slate-400 block mb-2">Phase 03 / Q2-Q4 2027</span>
+                        <h3 class="text-lg font-bold uppercase tracking-tight mb-4">Verification</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed font-light">Compile formalized documentation, initiate third-party B Lab evaluation, and confirm credential activation.</p>
+                    </div>
+                    <div class="text-[11px] font-mono border-t border-slate-200 pt-3 text-slate-500">
+                        RISK: Extended evaluation waiting periods.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div x-show="currentTab === 'workstreams'" class="space-y-8">
+            <div>
+                <span class="text-xs uppercase tracking-widest text-slate-400 font-semibold">[ 04 / STRUCTURE ]</span>
+                <h2 class="text-3xl font-bold tracking-tight text-slate-900 mt-2">Department Workstreams</h2>
+            </div>
+
+            <div class="grid md:grid-cols-4 gap-8 items-start">
+                <div class="flex flex-col border-l border-slate-200">
+                    <button @click="deptFilter = 'leadership'" :class="deptFilter === 'leadership' ? 'border-slate-900 text-slate-900 font-medium -ml-[1px]' : 'border-transparent text-slate-400 hover:text-slate-900'" class="text-left py-2.5 px-4 text-xs uppercase tracking-wider border-l-2 transition-all">Leadership</button>
+                    <button @click="deptFilter = 'marketing'" :class="deptFilter === 'marketing' ? 'border-slate-900 text-slate-900 font-medium -ml-[1px]' : 'border-transparent text-slate-400 hover:text-slate-900'" class="text-left py-2.5 px-4 text-xs uppercase tracking-wider border-l-2 transition-all">Marketing & PM</button>
+                    <button @click="deptFilter = 'hr'" :class="deptFilter === 'hr' ? 'border-slate-900 text-slate-900 font-medium -ml-[1px]' : 'border-transparent text-slate-400 hover:text-slate-900'" class="text-left py-2.5 px-4 text-xs uppercase tracking-wider border-l-2 transition-all">HR & Legal</button>
+                    <button @click="deptFilter = 'procurement'" :class="deptFilter === 'procurement' ? 'border-slate-900 text-slate-900 font-medium -ml-[1px]' : 'border-transparent text-slate-400 hover:text-slate-900'" class="text-left py-2.5 px-4 text-xs uppercase tracking-wider border-l-2 transition-all">Procurement & Fin</button>
+                    <button @click="deptFilter = 'housing'" :class="deptFilter === 'housing' ? 'border-slate-900 text-slate-900 font-medium -ml-[1px]' : 'border-transparent text-slate-400 hover:text-slate-900'" class="text-left py-2.5 px-4 text-xs uppercase tracking-wider border-l-2 transition-all">Housing & Ops</button>
+                    <button @click="deptFilter = 'sales'" :class="deptFilter === 'sales' ? 'border-slate-900 text-slate-900 font-medium -ml-[1px]' : 'border-transparent text-slate-400 hover:text-slate-900'" class="text-left py-2.5 px-4 text-xs uppercase tracking-wider border-l-2 transition-all">Sales & Client Teams</button>
+                </div>
+
+                <div class="md:col-span-3 border border-slate-900 p-8 min-h-64 bg-white">
+                    <div x-show="deptFilter === 'leadership'" class="space-y-6">
+                        <h3 class="text-xs font-mono uppercase tracking-widest text-slate-400">/ Executive Responsibility Matrix</h3>
+                        <div class="grid md:grid-cols-2 gap-8 text-sm font-light">
+                            <div class="space-y-2">
+                                <h4 class="font-semibold uppercase text-xs tracking-wider">Responsibilities</h4>
+                                <p class="text-slate-600 leading-relaxed">Execute legal structural updates, modify long-term articles of incorporation, and safeguard systemic financial investment pipelines.</p>
+                            </div>
+                            <div class="space-y-2">
+                                <h4 class="font-semibold uppercase text-xs tracking-wider">First Actions & Risks</h4>
+                                <p class="text-slate-900 font-medium">Resolution scheduling for board equity alignment. Risk: Board deadlock on specific phrasing.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div x-show="deptFilter === 'marketing'" class="space-y-6">
+                        <h3 class="text-xs font-mono uppercase tracking-widest text-slate-400">/ Communications & Tracking</h3>
+                        <div class="grid md:grid-cols-2 gap-8 text-sm font-light">
+                            <div class="space-y-2">
+                                <h4 class="font-semibold uppercase text-xs tracking-wider">Responsibilities</h4>
+                                <p class="text-slate-600 leading-relaxed">Centralize cross-department documentation flows, build strict messaging barriers, and verify transparency indices.</p>
+                            </div>
+                            <div class="space-y-2">
+                                <h4 class="font-semibold uppercase text-xs tracking-wider">First Actions</h4>
+                                <p class="text-slate-900 font-medium">Map out internal presentation timelines to keep team transparency levels aligned.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div x-show="deptFilter === 'hr'" class="space-y-6">
+                        <h3 class="text-xs font-mono uppercase tracking-widest text-slate-400">/ Equity & Compliance Architecture</h3>
+                        <div class="grid md:grid-cols-2 gap-8 text-sm font-light">
+                            <div class="space-y-2">
+                                <h4 class="font-semibold uppercase text-xs tracking-wider">Responsibilities</h4>
+                                <p class="text-slate-600 leading-relaxed">Oversee meticulous pay-parity audits, execute diversification trackers, and integrate worker lifecycle assessment pulses.</p>
+                            </div>
+                            <div class="space-y-2">
+                                <h4 class="font-semibold uppercase text-xs tracking-wider">Identified Risk</h4>
+                                <p class="text-rose-700 bg-rose-50 border border-rose-200 px-3 py-2 text-xs font-medium">Absence of standardized ethical or corporate inclusion language across older labor agreements.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div x-show="deptFilter === 'procurement'" class="space-y-6">
+                        <h3 class="text-xs font-mono uppercase tracking-widest text-slate-400">/ Supply Chain Oversight</h3>
+                        <div class="grid md:grid-cols-2 gap-8 text-sm font-light">
+                            <div class="space-y-2">
+                                <h4 class="font-semibold uppercase text-xs tracking-wider">Responsibilities</h4>
+                                <p class="text-slate-600 leading-relaxed">Reconstruct standard vendor expectations and auditing around localized and historically underrepresented merchant pipelines.</p>
+                            </div>
+                            <div class="space-y-2">
+                                <h4 class="font-semibold uppercase text-xs tracking-wider">First Actions</h4>
+                                <p class="text-slate-900 font-medium">Deploy updated Sustainable Sourcing Surveys directly to top-tier service providers.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div x-show="deptFilter === 'housing'" class="space-y-6">
+                        <h3 class="text-xs font-mono uppercase tracking-widest text-slate-400">/ Facilities & Operations</h3>
+                        <div class="grid md:grid-cols-2 gap-8 text-sm font-light">
+                            <div class="space-y-2">
+                                <h4 class="font-semibold uppercase text-xs tracking-wider">Responsibilities</h4>
+                                <p class="text-slate-600 leading-relaxed">Audit active utility waste streams, track precise commercial real estate carbon values, and formalize structural green rules.</p>
+                            </div>
+                            <div class="space-y-2">
+                                <h4 class="font-semibold uppercase text-xs tracking-wider">Evidence Needed</h4>
+                                <p class="text-slate-900 font-medium">Aggregated baseline facility energy bills and hazardous material lifecycle disposal slips.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div x-show="deptFilter === 'sales'" class="space-y-6">
+                        <h3 class="text-xs font-mono uppercase tracking-widest text-slate-400">/ Market Integration</h3>
+                        <div class="grid md:grid-cols-2 gap-8 text-sm font-light">
+                            <div class="space-y-2">
+                                <h4 class="font-semibold uppercase text-xs tracking-wider">Responsibilities</h4>
+                                <p class="text-slate-600 leading-relaxed">Leverage legal impact commitments inside complex commercial RFP processes to scale verified contract success metrics.</p>
+                            </div>
+                            <div class="space-y-2">
+                                <h4 class="font-semibold uppercase text-xs tracking-wider">Risks</h4>
+                                <p class="text-slate-900 font-medium">Accidental over-promising before the third-party structural audit queue is closed.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div x-show="currentTab === 'evidence'" class="space-y-8">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+                <div>
+                    <span class="text-xs uppercase tracking-widest text-slate-400 font-semibold">[ 05 / VERIFICATION ]</span>
+                    <h2 class="text-3xl font-bold tracking-tight text-slate-900 mt-2">Evidence Hub</h2>
+                </div>
+                
+                <div class="flex space-x-4 text-xs font-mono">
+                    <button @click="evidenceFilter = 'all'" :class="evidenceFilter === 'all' ? 'text-slate-900 font-bold underline' : 'text-slate-400'" class="cursor-pointer uppercase">All</button>
+                    <button @click="evidenceFilter = 'legal'" :class="evidenceFilter === 'legal' ? 'text-slate-900 font-bold underline' : 'text-slate-400'" class="cursor-pointer uppercase">Legal</button>
+                    <button @click="evidenceFilter = 'hr'" :class="evidenceFilter === 'hr' ? 'text-slate-900 font-bold underline' : 'text-slate-400'" class="cursor-pointer uppercase">HR</button>
+                    <button @click="evidenceFilter = 'procurement'" :class="evidenceFilter === 'procurement' ? 'text-slate-900 font-bold underline' : 'text-slate-400'" class="cursor-pointer uppercase">Procurement</button>
+                </div>
+            </div>
+
+            <div class="border-t border-slate-900 divide-y divide-slate-200 text-sm font-light">
+                <template x-for="item in evidenceData" :key="item.id">
+                    <div x-show="evidenceFilter === 'all' || evidenceFilter === item.dept" 
+                         class="py-5 grid grid-cols-1 md:grid-cols-4 items-center gap-4 transition-all">
+                        
+                        <div class="md:col-span-2 font-medium text-slate-900" x-text="item.name"></div>
+                        
+                        <div class="text-slate-400 text-xs uppercase font-mono" x-text="item.dept"></div>
+                        
+                        <div class="text-right">
+                            <button @click="toggleEvidenceStatus(item.id)"
+                                :class="{
+                                    'text-amber-600 bg-amber-50/60 border-amber-300': item.status === 'informal',
+                                    'text-rose-600 bg-rose-50/60 border-rose-300': item.status === 'missing',
+                                    'text-blue-600 bg-blue-50/60 border-blue-300': item.status === 'documented',
+                                    'text-emerald-700 bg-emerald-50/60 border-emerald-300': item.status === 'verified'
+                                }"
+                                class="px-3 py-1 border text-xs uppercase tracking-wider font-mono font-medium cursor-pointer transition-all hover:opacity-80">
+                                <span x-text="item.status"></span>
+                            </button>
+                        </div>
+                    </div>
+                </template>
+            </div>
+            <p class="text-xs text-slate-400 font-mono italic mt-4">* Click any individual status tag (e.g. INFORMAL, MISSING) directly to step through evaluation updates.</p>
+        </div>
+
+        <div x-show="currentTab === 'activation'" class="space-y-8">
+            <div>
+                <span class="text-xs uppercase tracking-widest text-slate-400 font-semibold">[ 06 / STRATEGY ]</span>
+                <h2 class="text-3xl font-bold tracking-tight text-slate-900 mt-2">Messaging Activation</h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12 font-light text-sm">
+                <div class="border-t border-slate-900 pt-6 space-y-4">
+                    <h3 class="text-xs uppercase font-mono tracking-wider text-slate-400">01 / Employer Branding Strategy</h3>
+                    <p class="text-slate-600 leading-relaxed">
+                        Integrate verified B Corp intent trackers straight into talent aquisition touchpoints. Position operational accountability directly inside external-facing job metrics.
+                    </p>
+                    <blockquote class="border-l-2 border-slate-900 pl-4 italic text-xs text-slate-500">
+                        "At People21, corporate performance isn't isolated from social equity. Our constitutional governance mandate legally binds core targets to verifiable impact."
+                    </blockquote>
+                </div>
+
+                <div class="border-t border-slate-900 pt-6 space-y-4">
+                    <h3 class="text-xs uppercase font-mono tracking-wider text-slate-400">02 / Risk Mitigation & Guardrails</h3>
+                    <p class="text-slate-600 leading-relaxed">
+                        Enforce stringent internal messaging limits to isolate operations from premature greenwashing liability.
+                    </p>
+                    <div class="bg-rose-50 border border-rose-200 p-4 text-xs text-rose-800 leading-relaxed">
+                        <strong>CRITICAL GUARDRAIL:</strong> Do not leverage sustainable terminology across public corporate proposals until external B Lab confirmation completes. Present initiatives as <em>active commitments</em>.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div x-show="currentTab === 'governance'" class="space-y-8">
+            <div>
+                <span class="text-xs uppercase tracking-widest text-slate-400 font-semibold">[ 07 / GOVERNANCE ]</span>
+                <h2 class="text-3xl font-bold tracking-tight text-slate-900 mt-2">Ownership Matrix</h2>
+            </div>
+
+            <div class="border-t border-b border-slate-900 text-xs font-mono">
+                <div class="grid grid-cols-4 py-3 border-b border-slate-200 font-semibold text-slate-400 uppercase tracking-wider">
+                    <div>Transformation Vector</div>
+                    <div class="text-center">Project Owner</div>
+                    <div class="text-center">Sponsor</div>
+                    <div class="text-center">Depts</div>
+                </div>
+                <div class="grid grid-cols-4 py-4 border-b border-slate-100 items-center">
+                    <div class="font-sans text-sm font-medium">Articles of Association Realignment</div>
+                    <div class="text-center text-slate-400">Consulted</div>
+                    <div class="text-center font-bold text-slate-900">Accountable</div>
+                    <div class="text-center text-slate-900">Responsible</div>
+                </div>
+                <div class="grid grid-cols-4 py-4 border-b border-slate-100 items-center">
+                    <div class="font-sans text-sm font-medium">BIA Baseline Metric Gathering</div>
+                    <div class="text-center font-bold text-slate-900">Responsible</div>
+                    <div class="text-center text-slate-400">Informed</div>
+                    <div class="text-center text-slate-900">Responsible</div>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 text-xs font-mono pt-4 text-slate-600">
+                <div class="space-y-2">
+                    <span class="font-bold text-slate-900 block uppercase tracking-wider">Meeting Cadence</span>
+                    <p class="font-sans font-light text-slate-500 text-sm">Bi-Weekly Syncs: Internal task owners evaluate operational compliance blocks. <br>Quarterly Overviews: Status validation presentation to executive sponsors.</p>
+                </div>
+                <div class="space-y-2">
+                    <span class="font-bold text-slate-900 block uppercase tracking-wider">Audit Protocols</span>
+                    <p class="font-sans font-light text-slate-500 text-sm">Pre-Submission Verification: Comprehensive documentation audit finalized 30 days prior to formal queue entry.</p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="max-w-7xl mx-auto px-8 py-10 border-t border-slate-200 flex justify-between text-xs font-mono text-slate-400">
+        <span>People21 Internal Framework // 2026</span>
+        <span> Prototype</span>
+    </footer>
+
+</body>
+</html>
