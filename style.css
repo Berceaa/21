@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+body { 
+    font-family: 'Plus Jakarta Sans', sans-serif; 
+    background-color: #fcfcfc;
+    color: #0f172a;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Tab utilities for header typography navigation */
+.nav-tab {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    text-transform: uppercase;
+    tracking: 0.05em;
+    border-bottom-width: 2px;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
+.nav-tab-active {
+    border-color: #0f172a;
+    color: #0f172a;
+    font-weight: 500;
+}
+.nav-tab-inactive {
+    border-color: transparent;
+    color: #94a3b8;
+}
+.nav-tab-inactive:hover {
+    color: #0f172a;
+}
+
+/* Sidebar Navigation Tabs inside Department Workstreams */
+.workstream-tab {
+    text-align: left;
+    padding-top: 0.625rem;
+    padding-bottom: 0.625rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-left-width: 2px;
+    transition-all: all 150ms;
+}
+.workstream-tab-active {
+    border-color: #0f172a;
+    color: #0f172a;
+    font-weight: 500;
+    margin-left: -1px;
+}
+.workstream-tab-inactive {
+    border-color: transparent;
+    color: #94a3b8;
+}
+.workstream-tab-inactive:hover {
+    color: #0f172a;
+}
+
+/* Base custom badge styling to clean standard utilities architecture */
+.status-badge, .evidence-badge {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    border-width: 1px;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 150ms;
+}
+.evidence-badge {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+.status-badge:hover, .evidence-badge:hover {
+    opacity: 0.8;
+}

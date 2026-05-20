@@ -6,42 +6,9 @@
     <title>People21 — B Corp Playbook</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
-        body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            background-color: #fcfcfc;
-            color: #0f172a;
-            -webkit-font-smoothing: antialiased;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body x-data="{ 
-    currentTab: 'overview', 
-    diagnosticScores: { leadership: 'ready', ownership: 'progress', doc: 'gap', data: 'progress', capacity: 'ready', activation: 'progress' },
-    deptFilter: 'leadership',
-    
-    /* Interactive Evidence Hub State */
-    evidenceFilter: 'all',
-    evidenceData: [
-        { id: 1, name: 'Articles of Association / Mission Lock Amendment', dept: 'legal', status: 'informal' },
-        { id: 2, name: 'Pay Equity / Demographic Disparity Metrics', dept: 'hr', status: 'missing' },
-        { id: 3, name: 'Localized Supply Chain Expenditure Matrix', dept: 'procurement', status: 'documented' },
-        { id: 4, name: 'Whistleblower Protection & Ethical Conduct Policy', dept: 'legal', status: 'verified' },
-        { id: 5, name: 'Utility Carbon Tracking & Facility Energy Audits', dept: 'housing', status: 'missing' },
-        { id: 6, name: 'Client ESG RFP Standard Response Framework', dept: 'sales', status: 'informal' }
-    ],
-    
-    /* Cycle function for Evidence Statuses */
-    toggleEvidenceStatus(id) {
-        const item = this.evidenceData.find(e => e.id === id);
-        if (item) {
-            const statusOrder = ['missing', 'informal', 'documented', 'verified'];
-            let nextIndex = (statusOrder.indexOf(item.status) + 1) % statusOrder.length;
-            item.status = statusOrder[nextIndex];
-        }
-    }
-}">
+<body x-data="playbookState()">
 
     <header class="border-b border-slate-900 bg-white sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-8 h-24 flex items-center justify-between">
@@ -51,13 +18,13 @@
             </div>
             
             <nav class="hidden lg:flex space-x-1">
-                <button @click="currentTab = 'overview'" :class="currentTab === 'overview' ? 'border-slate-900 text-slate-900 font-medium' : 'border-transparent text-slate-400 hover:text-slate-900'" class="px-3 py-2 text-xs uppercase tracking-wider border-b-2 transition-all">Start Here</button>
-                <button @click="currentTab = 'diagnostic'" :class="currentTab === 'diagnostic' ? 'border-slate-900 text-slate-900 font-medium' : 'border-transparent text-slate-400 hover:text-slate-900'" class="px-3 py-2 text-xs uppercase tracking-wider border-b-2 transition-all">Check Readiness</button>
-                <button @click="currentTab = 'roadmap'" :class="currentTab === 'roadmap' ? 'border-slate-900 text-slate-900 font-medium' : 'border-transparent text-slate-400 hover:text-slate-900'" class="px-3 py-2 text-xs uppercase tracking-wider border-b-2 transition-all">View Roadmap</button>
-                <button @click="currentTab = 'workstreams'" :class="currentTab === 'workstreams' ? 'border-slate-900 text-slate-900 font-medium' : 'border-transparent text-slate-400 hover:text-slate-900'" class="px-3 py-2 text-xs uppercase tracking-wider border-b-2 transition-all">Find Your Dept</button>
-                <button @click="currentTab = 'evidence'" :class="currentTab === 'evidence' ? 'border-slate-900 text-slate-900 font-medium' : 'border-transparent text-slate-400 hover:text-slate-900'" class="px-3 py-2 text-xs uppercase tracking-wider border-b-2 transition-all">Track Evidence</button>
-                <button @click="currentTab = 'activation'" :class="currentTab === 'activation' ? 'border-slate-900 text-slate-900 font-medium' : 'border-transparent text-slate-400 hover:text-slate-900'" class="px-3 py-2 text-xs uppercase tracking-wider border-b-2 transition-all">Activate Message</button>
-                <button @click="currentTab = 'governance'" :class="currentTab === 'governance' ? 'border-slate-900 text-slate-900 font-medium' : 'border-transparent text-slate-400 hover:text-slate-900'" class="px-3 py-2 text-xs uppercase tracking-wider border-b-2 transition-all">Dashboard</button>
+                <button @click="currentTab = 'overview'" :class="currentTab === 'overview' ? 'nav-tab-active' : 'nav-tab-inactive'" class="nav-tab">Start Here</button>
+                <button @click="currentTab = 'diagnostic'" :class="currentTab === 'diagnostic' ? 'nav-tab-active' : 'nav-tab-inactive'" class="nav-tab">Check Readiness</button>
+                <button @click="currentTab = 'roadmap'" :class="currentTab === 'roadmap' ? 'nav-tab-active' : 'nav-tab-inactive'" class="nav-tab">View Roadmap</button>
+                <button @click="currentTab = 'workstreams'" :class="currentTab === 'workstreams' ? 'nav-tab-active' : 'nav-tab-inactive'" class="nav-tab">Find Your Dept</button>
+                <button @click="currentTab = 'evidence'" :class="currentTab === 'evidence' ? 'nav-tab-active' : 'nav-tab-inactive'" class="nav-tab">Track Evidence</button>
+                <button @click="currentTab = 'activation'" :class="currentTab === 'activation' ? 'nav-tab-active' : 'nav-tab-inactive'" class="nav-tab">Activate Message</button>
+                <button @click="currentTab = 'governance'" :class="currentTab === 'governance' ? 'nav-tab-active' : 'nav-tab-inactive'" class="nav-tab">Dashboard</button>
             </nav>
         </div>
     </header>
@@ -122,9 +89,9 @@
                             <td class="py-6 pr-4 font-medium text-slate-900">Leadership Support</td>
                             <td class="py-6 px-4 text-slate-600">Executive commitment verified, dedicated transformation capital allocated, and legal mission lock approved.</td>
                             <td class="py-6 pl-4 text-right">
-                                <button @click="diagnosticScores.leadership = (diagnosticScores.leadership === 'ready' ? 'progress' : (diagnosticScores.leadership === 'progress' ? 'gap' : 'ready'))"
-                                    :class="diagnosticScores.leadership === 'ready' ? 'text-emerald-700 bg-emerald-50 border-emerald-300' : (diagnosticScores.leadership === 'progress' ? 'text-amber-700 bg-amber-50 border-amber-300' : 'text-rose-700 bg-rose-50 border-rose-300')"
-                                    class="px-3 py-1 border text-xs uppercase tracking-wider font-medium cursor-pointer transition-all">
+                                <button @click="toggleDiagnostic('leadership')"
+                                    :class="getDiagnosticClass(diagnosticScores.leadership)"
+                                    class="status-badge">
                                     <span x-text="diagnosticScores.leadership"></span>
                                 </button>
                             </td>
@@ -133,9 +100,9 @@
                             <td class="py-6 pr-4 font-medium text-slate-900">Ownership & Accountability</td>
                             <td class="py-6 px-4 text-slate-600">Cross-functional workstream managers assigned and goals tied directly to department metrics.</td>
                             <td class="py-6 pl-4 text-right">
-                                <button @click="diagnosticScores.ownership = (diagnosticScores.ownership === 'ready' ? 'progress' : (diagnosticScores.ownership === 'progress' ? 'gap' : 'ready'))"
-                                    :class="diagnosticScores.ownership === 'ready' ? 'text-emerald-700 bg-emerald-50 border-emerald-300' : (diagnosticScores.ownership === 'progress' ? 'text-amber-700 bg-amber-50 border-amber-300' : 'text-rose-700 bg-rose-50 border-rose-300')"
-                                    class="px-3 py-1 border text-xs uppercase tracking-wider font-medium cursor-pointer transition-all">
+                                <button @click="toggleDiagnostic('ownership')"
+                                    :class="getDiagnosticClass(diagnosticScores.ownership)"
+                                    class="status-badge">
                                     <span x-text="diagnosticScores.ownership"></span>
                                 </button>
                             </td>
@@ -144,9 +111,9 @@
                             <td class="py-6 pr-4 font-medium text-slate-900">Documentation Quality</td>
                             <td class="py-6 px-4 text-slate-600">Centralized corporate handbooks, environmental records, and localized sourcing codes prepared.</td>
                             <td class="py-6 pl-4 text-right">
-                                <button @click="diagnosticScores.doc = (diagnosticScores.doc === 'ready' ? 'progress' : (diagnosticScores.doc === 'progress' ? 'gap' : 'ready'))"
-                                    :class="diagnosticScores.doc === 'ready' ? 'text-emerald-700 bg-emerald-50 border-emerald-300' : (diagnosticScores.doc === 'progress' ? 'text-amber-700 bg-amber-50 border-amber-300' : 'text-rose-700 bg-rose-50 border-rose-300')"
-                                    class="px-3 py-1 border text-xs uppercase tracking-wider font-medium cursor-pointer transition-all">
+                                <button @click="toggleDiagnostic('doc')"
+                                    :class="getDiagnosticClass(diagnosticScores.doc)"
+                                    class="status-badge">
                                     <span x-text="diagnosticScores.doc"></span>
                                 </button>
                             </td>
@@ -155,9 +122,9 @@
                             <td class="py-6 pr-4 font-medium text-slate-900">Data Trackability</td>
                             <td class="py-6 px-4 text-slate-600">Granular tracking frameworks active for commercial energy usage, waste streams, and hiring trends.</td>
                             <td class="py-6 pl-4 text-right">
-                                <button @click="diagnosticScores.data = (diagnosticScores.data === 'ready' ? 'progress' : (diagnosticScores.data === 'progress' ? 'gap' : 'ready'))"
-                                    :class="diagnosticScores.data === 'ready' ? 'text-emerald-700 bg-emerald-50 border-emerald-300' : (diagnosticScores.data === 'progress' ? 'text-amber-700 bg-amber-50 border-amber-300' : 'text-rose-700 bg-rose-50 border-rose-300')"
-                                    class="px-3 py-1 border text-xs uppercase tracking-wider font-medium cursor-pointer transition-all">
+                                <button @click="toggleDiagnostic('data')"
+                                    :class="getDiagnosticClass(diagnosticScores.data)"
+                                    class="status-badge">
                                     <span x-text="diagnosticScores.data"></span>
                                 </button>
                             </td>
@@ -217,12 +184,12 @@
 
             <div class="grid md:grid-cols-4 gap-8 items-start">
                 <div class="flex flex-col border-l border-slate-200">
-                    <button @click="deptFilter = 'leadership'" :class="deptFilter === 'leadership' ? 'border-slate-900 text-slate-900 font-medium -ml-[1px]' : 'border-transparent text-slate-400 hover:text-slate-900'" class="text-left py-2.5 px-4 text-xs uppercase tracking-wider border-l-2 transition-all">Leadership</button>
-                    <button @click="deptFilter = 'marketing'" :class="deptFilter === 'marketing' ? 'border-slate-900 text-slate-900 font-medium -ml-[1px]' : 'border-transparent text-slate-400 hover:text-slate-900'" class="text-left py-2.5 px-4 text-xs uppercase tracking-wider border-l-2 transition-all">Marketing & PM</button>
-                    <button @click="deptFilter = 'hr'" :class="deptFilter === 'hr' ? 'border-slate-900 text-slate-900 font-medium -ml-[1px]' : 'border-transparent text-slate-400 hover:text-slate-900'" class="text-left py-2.5 px-4 text-xs uppercase tracking-wider border-l-2 transition-all">HR & Legal</button>
-                    <button @click="deptFilter = 'procurement'" :class="deptFilter === 'procurement' ? 'border-slate-900 text-slate-900 font-medium -ml-[1px]' : 'border-transparent text-slate-400 hover:text-slate-900'" class="text-left py-2.5 px-4 text-xs uppercase tracking-wider border-l-2 transition-all">Procurement & Fin</button>
-                    <button @click="deptFilter = 'housing'" :class="deptFilter === 'housing' ? 'border-slate-900 text-slate-900 font-medium -ml-[1px]' : 'border-transparent text-slate-400 hover:text-slate-900'" class="text-left py-2.5 px-4 text-xs uppercase tracking-wider border-l-2 transition-all">Housing & Ops</button>
-                    <button @click="deptFilter = 'sales'" :class="deptFilter === 'sales' ? 'border-slate-900 text-slate-900 font-medium -ml-[1px]' : 'border-transparent text-slate-400 hover:text-slate-900'" class="text-left py-2.5 px-4 text-xs uppercase tracking-wider border-l-2 transition-all">Sales & Client Teams</button>
+                    <button @click="deptFilter = 'leadership'" :class="deptFilter === 'leadership' ? 'workstream-tab-active' : 'workstream-tab-inactive'" class="workstream-tab">Leadership</button>
+                    <button @click="deptFilter = 'marketing'" :class="deptFilter === 'marketing' ? 'workstream-tab-active' : 'workstream-tab-inactive'" class="workstream-tab">Marketing & PM</button>
+                    <button @click="deptFilter = 'hr'" :class="deptFilter === 'hr' ? 'workstream-tab-active' : 'workstream-tab-inactive'" class="workstream-tab">HR & Legal</button>
+                    <button @click="deptFilter = 'procurement'" :class="deptFilter === 'procurement' ? 'workstream-tab-active' : 'workstream-tab-inactive'" class="workstream-tab">Procurement & Fin</button>
+                    <button @click="deptFilter = 'housing'" :class="deptFilter === 'housing' ? 'workstream-tab-active' : 'workstream-tab-inactive'" class="workstream-tab">Housing & Ops</button>
+                    <button @click="deptFilter = 'sales'" :class="deptFilter === 'sales' ? 'workstream-tab-active' : 'workstream-tab-inactive'" class="workstream-tab">Sales & Client Teams</button>
                 </div>
 
                 <div class="md:col-span-3 border border-slate-900 p-8 min-h-64 bg-white">
@@ -330,22 +297,13 @@
 
             <div class="border-t border-slate-900 divide-y divide-slate-200 text-sm font-light">
                 <template x-for="item in evidenceData" :key="item.id">
-                    <div x-show="evidenceFilter === 'all' || evidenceFilter === item.dept" 
-                         class="py-5 grid grid-cols-1 md:grid-cols-4 items-center gap-4 transition-all">
-                        
+                    <div x-show="evidenceFilter === 'all' || evidenceFilter === item.dept" class="py-5 grid grid-cols-1 md:grid-cols-4 items-center gap-4 transition-all">
                         <div class="md:col-span-2 font-medium text-slate-900" x-text="item.name"></div>
-                        
                         <div class="text-slate-400 text-xs uppercase font-mono" x-text="item.dept"></div>
-                        
                         <div class="text-right">
                             <button @click="toggleEvidenceStatus(item.id)"
-                                :class="{
-                                    'text-amber-600 bg-amber-50/60 border-amber-300': item.status === 'informal',
-                                    'text-rose-600 bg-rose-50/60 border-rose-300': item.status === 'missing',
-                                    'text-blue-600 bg-blue-50/60 border-blue-300': item.status === 'documented',
-                                    'text-emerald-700 bg-emerald-50/60 border-emerald-300': item.status === 'verified'
-                                }"
-                                class="px-3 py-1 border text-xs uppercase tracking-wider font-mono font-medium cursor-pointer transition-all hover:opacity-80">
+                                :class="getEvidenceClass(item.status)"
+                                class="evidence-badge">
                                 <span x-text="item.status"></span>
                             </button>
                         </div>
@@ -427,8 +385,9 @@
 
     <footer class="max-w-7xl mx-auto px-8 py-10 border-t border-slate-200 flex justify-between text-xs font-mono text-slate-400">
         <span>People21 Internal Framework // 2026</span>
-        <span> Prototype</span>
+        <span>High-Fidelity Document Prototype</span>
     </footer>
 
+    <script src="app.js"></script>
 </body>
 </html>
